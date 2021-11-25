@@ -10,15 +10,15 @@ public class Cat {
         this.isHungry = true;
     }
 
-    public int getAppetite() {
-        return appetite;
-    }
-
     public boolean isHungry() {
         return this.isHungry;
     }
 
-    public void setHungry(boolean hungry) {
-        this.isHungry = hungry;
+    public void eat(Plate plate) {
+        if (!this.isHungry || this.appetite > plate.getAmountOfFood()) {
+            return;
+        }
+
+        this.isHungry = !plate.decreaseFood(this.appetite);
     }
 }

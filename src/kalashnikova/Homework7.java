@@ -10,9 +10,9 @@ import java.util.Random;
  */
 public class Homework7 {
 
-    static Plate plate = new Plate(45);
-
     public static void main(String[] args) {
+        Plate plate = new Plate(45);
+
         System.out.println(plate.amountInfo());
 
         Cat[] cats = new Cat[] {
@@ -25,10 +25,10 @@ public class Homework7 {
         };
 
         for (Cat cat : cats) {
-            eat(cat);
+            cat.eat(plate);
         }
 
-        int hungryCatCount = printFeedingInformation(cats, true);
+        int hungryCatCount = printFeedingInformation(cats, plate, true);
 
         if(hungryCatCount == 0) {
             return;
@@ -38,19 +38,11 @@ public class Homework7 {
         plate.addFoodToPlate(addFoodAmount);
         System.out.printf("В миску добавлено %d корма. \n", addFoodAmount);
 
-        Arrays.stream(cats).forEach(Homework7::eat);
-        printFeedingInformation(cats, false);
+        Arrays.stream(cats).forEach(cat -> cat.eat(plate));
+        printFeedingInformation(cats, plate, false);
     }
 
-    private static void eat(Cat cat) {
-        if (!cat.isHungry() || cat.getAppetite() > plate.getAmountOfFood()) {
-            return;
-        }
-
-        cat.setHungry(!plate.decreaseFood(cat.getAppetite()));
-    }
-
-    private static int printFeedingInformation(Cat[] cats, boolean isFirstFeeding) {
+    private static int printFeedingInformation(Cat[] cats, Plate plate, boolean isFirstFeeding) {
         int hungryCatCount = (int) Arrays.stream(cats).filter(Cat::isHungry).count();
 
         StringBuilder sb = new StringBuilder()
